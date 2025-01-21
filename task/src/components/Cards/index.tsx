@@ -6,7 +6,7 @@ import { CircularProgress } from '@mui/material'; // Optional: For showing a loa
 import { cards } from '@/features/home/constants/constants';
 
 interface ExpandableCardDemoProps {
-    children: React.ReactNode; // Add this line to accept the children prop
+    children?: React.ReactNode; // Add this line to accept the children prop
 }
 
 export const ExpandableCardDemo: React.FC<ExpandableCardDemoProps> = ({ children }) => {

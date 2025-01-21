@@ -1,8 +1,4 @@
 import { appAssets } from '@/constants/appAssets';
-import DeleteCard from '@/features/deleting/cards/DeleteCard';
-import CreateCard from '@/features/creating/cards/CreateCard';
-import UpdateCard from '@/features/updating/cards/UpdateCard';
-import ReadCard from '@/features/reading/cards/ReadCard';
 import CreatingPage from '@/app/creating/page';
 import ReadingPage from '@/app/reading/page';
 import UpdatingPage from '@/app/updating/page';
