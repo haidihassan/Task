@@ -4,6 +4,8 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useOutsideClick } from '@/hooks/use-outside-click';
 import { CircularProgress } from '@mui/material'; // Optional: For showing a loading spinner
 import { cards } from '@/features/home/constants/constants';
+import TypingAnimation from '../ui/typing-animation';
+// import { TextAnimate } from '../ui/text-animate';
 
 interface ExpandableCardDemoProps {
     children?: React.ReactNode; // Add this line to accept the children prop
@@ -86,7 +88,9 @@ export const ExpandableCardDemo: React.FC<ExpandableCardDemoProps> = ({ children
                                             layoutId={`description-${active.id}-${id}`}
                                             className="text-neutral-600 dark:text-neutral-400 text-base"
                                         >
-                                            {active.description}
+                                            <TypingAnimation style={{ color: '#938bc7', fontSize: '34px' }}>
+                                                {active.description}
+                                            </TypingAnimation>
                                         </motion.p>
                                     </div>
                                 </div>
