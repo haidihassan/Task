@@ -3,10 +3,19 @@ import CreatingPage from '@/app/creating/page';
 import ReadingPage from '@/app/reading/page';
 import UpdatingPage from '@/app/updating/page';
 import DeletePage from '@/app/deleting/page';
+import { appPaths } from '@/constants/appPaths';
 
 export const cards = [
-    { id: 1, title: 'Create', description: 'Create New API', src: appAssets.create, content: <CreatingPage /> },
-    { id: 2, title: 'Read', description: 'Only Read', src: appAssets.read, content: <ReadingPage /> },
-    { id: 3, title: 'Update', description: 'Update API', src: appAssets.update, content: <UpdatingPage /> },
-    { id: 4, title: 'Delete', description: 'Delete API', src: appAssets.delete, content: <DeletePage /> },
+    { id: 1, title: 'Add Cars', description: 'Add New Car', src: appAssets.create, isRedirect: false, modalContent: <CreatingPage /> },
+    {
+        id: 3,
+        title: 'All Cars',
+        description: 'Cars Update or Delete',
+        src: appAssets.update,
+        isRedirect: true,
+        path: appPaths.update,
+        modalContent: <UpdatingPage />,
+    },
+    // { id: 2, title: 'Read', description: 'Only Read', src: appAssets.read, modalContent: <ReadingPage /> },
+    // { id: 4, title: 'Delete', description: 'Delete API', src: appAssets.delete, modalContent: <DeletePage /> },
 ];
