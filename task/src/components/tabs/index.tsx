@@ -1,4 +1,5 @@
 import { Tabs, TabsList, TabsTrigger } from '@radix-ui/react-tabs';
+import React from 'react';
 
 type Tab = {
     value: string;

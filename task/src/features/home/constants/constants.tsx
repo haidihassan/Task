@@ -1,8 +1,9 @@
 import { appAssets } from '@/constants/appAssets';
+import React from 'react';
 import CreatingPage from '@/app/creating/page';
-import ReadingPage from '@/app/reading/page';
+// import ReadingPage from '@/app/reading/page';
 import UpdatingPage from '@/app/updating/page';
-import DeletePage from '@/app/deleting/page';
+// import DeletePage from '@/app/deleting/page';
 import { appPaths } from '@/constants/appPaths';
 
 export const cards = [
