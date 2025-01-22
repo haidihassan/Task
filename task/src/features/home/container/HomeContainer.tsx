@@ -1,3 +1,18 @@
+'use client';
+import React from 'react';
+import MorphingText from '@/components/ui/morphing-text';
+import { ExpandableCardDemo } from '@/components/Cards';
+import { cards } from '../constants/constants';
+
+const texts = ['New', 'Task'];
+
 export default function HomeContainer() {
-    return <h1>Home</h1>;
+    return (
+        <>
+            <MorphingText texts={texts} />
+            <div className="mt-6">
+                <ExpandableCardDemo cards={cards} />
+            </div>
+        </>
+    );
 }
