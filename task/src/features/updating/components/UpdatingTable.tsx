@@ -7,7 +7,10 @@ import { appIcons } from '@/constants/appIcons';
 import useFetchData from '@/hooks/useFetchData';
 import PopUp from '@/components/popup';
 import useToast from '@/hooks/useToast';
-import { DeleteItem } from '../utils/DeleteItem';
+import { DeleteItem } from '../../deleting/utils/DeleteItem';
+import SearchComponent from '@/components/search';
+import EditForm from './EditForm';
+import { EditItem } from '../utils/EditItem';
 
 export default function UpdatingTable() {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -16,19 +19,22 @@ export default function UpdatingTable() {
         throw new Error('API URL is not defined in the environment variables.');
     }
     const { data: carsData, loading, error } = useFetchData<any[]>(apiUrl);
-    const { toasts, addToast, removeToast } = useToast();
+    const { addToast } = useToast();
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [itemToDelete, setItemToDelete] = useState<any>(null);
     const [isDeleting, setIsDeleting] = useState(false);
+    const [searchValue, setSearchValue] = useState('');
+    const [selectedItem, setSelectedItem] = useState<any>(null);
+    const [isEditMode, setIsEditMode] = useState(false);
 
-    if (loading) {
-        return <div>Loading...</div>;
-    }
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchValue(e.target.value);
+    };
 
-    if (error) {
-        return <div>{error}</div>;
-    }
+    const handleClearSearch = () => {
+        setSearchValue('');
+    };
 
     const handleDeleteClick = (item: any) => {
         setItemToDelete(item);
@@ -56,10 +62,55 @@ export default function UpdatingTable() {
         setIsModalOpen(false);
         setItemToDelete(null);
     };
+    const handleEditClick = (item: any) => {
+        setSelectedItem(item);
+        setIsEditMode(true);
+    };
+    const filteredData = carsData?.filter((item) => {
+        return Tableheads.some((header) => {
+            const value = item[header.key];
+            if (typeof value === 'string') {
+                return value.toLowerCase().includes(searchValue.toLowerCase());
+            }
+            return false;
+        });
+    });
+    const handleSaveEdit = async (updatedData: any) => {
+        try {
+            await EditItem(selectedItem.id, updatedData);
+            addToast('Item updated successfully!', 'success');
+            setIsEditMode(false);
+            setSelectedItem(null);
+        } catch (error) {
+            addToast('Failed to update item.', 'error');
+        }
+    };
+    const handleCancelEdit = () => {
+        setIsEditMode(false);
+        setSelectedItem(null);
+    };
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>{error}</div>;
+    }
 
     return (
         <div className="overflow-x-auto">
-            <Table className="min-w-full">
+            <div className="flex justify-center items-center min-h-screen">
+                <div className="mx-auto">
+                    <SearchComponent
+                        placeholder="Search for items..."
+                        value={searchValue}
+                        onChange={handleSearchChange}
+                        onClear={handleClearSearch}
+                        icon={<Icon icon={appIcons.search} width={25} />}
+                    />
+                </div>
+            </div>
+            <Table className="min-w-full mt-4">
                 <TableHeader>
                     <TableRow>
                         {Tableheads.map((header) => (
@@ -69,8 +120,8 @@ export default function UpdatingTable() {
                         ))}
                     </TableRow>
                 </TableHeader>
-                <TableBody className="max-h-[300px] overflow-y-auto">
-                    {carsData?.map((row, index) => (
+                <TableBody className="max-h-100vh overflow-y-auto">
+                    {filteredData?.map((row, index) => (
                         <TableRow key={index}>
                             {Tableheads.map((header) => (
                                 <TableCell key={header.key} className={`p-4 border ${header.align ? `text-${header.align}` : ''}`}>
@@ -78,7 +129,12 @@ export default function UpdatingTable() {
                                         <img src={row[header.key]} alt={row.brand} className="w-16 h-16 object-cover" />
                                     ) : header.key === 'Actions' ? (
                                         <div className="flex space-x-5 items-center">
-                                            <Icon icon={appIcons.edit} width={20} className="cursor-pointer" />
+                                            <Icon
+                                                icon={appIcons.edit}
+                                                width={20}
+                                                onClick={() => handleEditClick(row)}
+                                                className="cursor-pointer"
+                                            />
                                             <Icon
                                                 icon={appIcons.delete}
                                                 width={20}
@@ -93,9 +149,16 @@ export default function UpdatingTable() {
                             ))}
                         </TableRow>
                     ))}
+                    {filteredData?.length === 0 && (
+                        <TableRow>
+                            <TableCell colSpan={Tableheads.length} className="text-center p-4">
+                                No results found.
+                            </TableCell>
+                        </TableRow>
+                    )}
                 </TableBody>
             </Table>
-
+            {isEditMode && <EditForm item={selectedItem} onSave={handleSaveEdit} onCancel={handleCancelEdit} />}
             <PopUp
                 isOpen={isModalOpen}
                 onClose={handleCloseModal}

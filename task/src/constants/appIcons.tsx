@@ -7,5 +7,7 @@ export const appIcons = {
     delete: 'mdi:delete',
     downarrow: 'bxs:down-arrow',
     uparrow: 'bxs:up-arrow',
-    submit: 'iconify-color formkit--submit',
+    submit: 'formkit:submit',
+    search:"material-symbols-light:search-rounded",
+    close:"material-symbols-light:close-rounded",
 };

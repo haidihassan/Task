@@ -24,7 +24,7 @@ const useFetchData = <T>(url: string): { data: T | null; loading: boolean; error
                 const result = await response.json();
                 setData(result);
                 setLoading(false);
-            } catch (err: any) {
+            } catch (error: any) {
                 setError('Error fetching data');
                 setLoading(false);
             }
