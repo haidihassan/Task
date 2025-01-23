@@ -7,7 +7,7 @@ interface PopUpProps {
     itemName: string;
 }
 
-const PopUp: React.FC<PopUpProps> = ({ isOpen, onClose, onConfirm, itemName }) => {
+const PopUp: React.FC<PopUpProps> = ({ isOpen, onClose, onConfirm }) => {
     if (!isOpen) return null;
 
     return (
