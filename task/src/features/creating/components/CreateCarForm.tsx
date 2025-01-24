@@ -1,7 +1,7 @@
 'use client';
 import CustomDropdown from '@/components/dropdown';
 import { Input } from '@/components/ui/input';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { carTypes } from '../constants/constants';
 import Button from '@/components/buttons';

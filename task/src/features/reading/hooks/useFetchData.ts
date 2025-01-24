@@ -1,4 +1,3 @@
-// hooks/useFetchData.ts
 
 import { useState, useEffect } from 'react';
 

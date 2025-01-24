@@ -77,9 +77,8 @@ const EditForm: React.FC<EditFormProps> = ({ item, onSave, onCancel }) => {
         setIsSubmitting(true);
 
         try {
-            await onSave(formData);
-            addToast('Item updated successfully!', 'success'); // Adding success toast
-            // onCancel(); // Close the form or redirect after success
+            onSave(formData);
+            addToast('Item updated successfully!', 'success');
         } catch (error) {
             addToast('Failed to update item. Please try again.', 'error');
         } finally {

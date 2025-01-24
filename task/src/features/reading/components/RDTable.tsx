@@ -39,16 +39,16 @@ export default function RDTable() {
 
         setIsDeleting(true);
 
-        try {
-            await DeleteItem(itemToDelete.id);
+        const result = await DeleteItem(itemToDelete.id);
+
+        if (result.success) {
             addToast('Item deleted successfully!', 'success');
             setIsModalOpen(false);
             setItemToDelete(null);
-        } catch (error) {
-            addToast('Failed to delete item.', 'error');
-        } finally {
-            setIsDeleting(false);
+        } else {
+            addToast('Failed to delete item. Please try again.', 'error');
         }
+        setIsDeleting(false);
     };
 
     const handleCloseModal = () => {
@@ -178,7 +178,7 @@ export default function RDTable() {
                     onClose={handleCloseModal}
                     onConfirm={handleConfirmDelete}
                     title="Are You Sure You Want to Delete?"
-                    confirmLabel="Delete"
+                    confirmLabel={isDeleting ? 'Deleting...' : 'Delete'}
                     cancelLabel="Cancel"
                     confirmStyle={{ backgroundColor: '#18538c', color: 'white' }}
                     cancelStyle={{ backgroundColor: '#18538c', color: 'white' }}
