@@ -9,12 +9,12 @@ import PopUp from '@/components/popup';
 import useToast from '@/hooks/useToast';
 import { DeleteItem } from '../../deleting/utils/DeleteItem';
 import SearchComponent from '@/components/search';
-import EditForm from '../../updating/components/EditCarForm';
+import EditCarForm from '../../updating/components/EditCarForm';
 import { EditItem } from '../../updating/utils/EditItem';
 import Button from '@/components/buttons';
 import { useRouter } from 'next/navigation';
 
-export default function UpdatingTable() {
+export default function RDTable() {
     const { data: carsData, loading, error } = useFetchData<any[]>();
     const { addToast } = useToast();
     const router = useRouter();
@@ -23,18 +23,14 @@ export default function UpdatingTable() {
     const [isDeleting, setIsDeleting] = useState(false);
     const [searchValue, setSearchValue] = useState('');
     const [selectedItem, setSelectedItem] = useState<any>(null);
-    const [isEditMode, setIsEditMode] = useState(false);
+    const [modalType, setModalType] = useState<'edit' | 'delete' | null>(null);
 
-    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchValue(e.target.value);
-    };
-
-    const handleClearSearch = () => {
-        setSearchValue('');
-    };
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => setSearchValue(e.target.value);
+    const handleClearSearch = () => setSearchValue('');
 
     const handleDeleteClick = (item: any) => {
         setItemToDelete(item);
+        setModalType('delete');
         setIsModalOpen(true);
     };
 
@@ -58,47 +54,45 @@ export default function UpdatingTable() {
     const handleCloseModal = () => {
         setIsModalOpen(false);
         setItemToDelete(null);
+        setSelectedItem(null);
+        setModalType(null);
     };
+
     const handleEditClick = (item: any) => {
         setSelectedItem(item);
-        setIsEditMode(true);
+        setModalType('edit');
+        setIsModalOpen(true);
     };
-    const filteredData = carsData?.filter((item) => {
-        return Tableheads.some((header) => {
-            const value = item[header.key];
-            if (typeof value === 'string') {
-                return value.toLowerCase().includes(searchValue.toLowerCase());
-            }
-            return false;
-        });
-    });
+
+    const filteredData = carsData?.filter((item) =>
+        Tableheads.some((header) =>
+            typeof item[header.key] === 'string' ? item[header.key].toLowerCase().includes(searchValue.toLowerCase()) : false
+        )
+    );
+
     const handleSaveEdit = async (updatedData: any) => {
         try {
             await EditItem(selectedItem.id, updatedData);
             addToast('Item updated successfully!', 'success');
-            setIsEditMode(false);
+            setIsModalOpen(false);
             setSelectedItem(null);
         } catch (error) {
             addToast('Failed to update item.', 'error');
         }
     };
+
     const handleCancelEdit = () => {
-        setIsEditMode(false);
+        setIsModalOpen(false);
         setSelectedItem(null);
     };
-    if (loading) {
-        return <div>Loading...</div>;
-    }
 
-    if (error) {
-        return <div>{error}</div>;
-    }
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>{error}</div>;
 
     return (
         <div className="overflow-x-auto">
-            <div className="flex justify-between items-center min-h-screen px-4">
-                {/* Search Component and Go Back Button */}
-                <div className="flex-1">
+            <div className="flex justify-between items-center min-h-screen px-4" style={{ marginBottom: '20px' }}>
+                <div className="flex-1" style={{ marginLeft: '-17px' }}>
                     <SearchComponent
                         placeholder="Search for items..."
                         value={searchValue}
@@ -107,7 +101,7 @@ export default function UpdatingTable() {
                         icon={<Icon icon={appIcons.search} width={25} />}
                     />
                 </div>
-                <div className="ml-4 " style={{ marginBottom: '20px' }}>
+                <div style={{ marginBottom: '20px', marginRight: '-15px' }}>
                     <Button
                         label="Go back"
                         style={{ backgroundColor: '#18538c' }}
@@ -144,7 +138,7 @@ export default function UpdatingTable() {
                                                 icon={appIcons.edit}
                                                 color="#18538c"
                                                 width={20}
-                                                onClick={() => handleEditClick(row)} // Call handleEditClick to open the edit form
+                                                onClick={() => handleEditClick(row)}
                                                 className="cursor-pointer"
                                             />
                                             <Icon
@@ -172,16 +166,24 @@ export default function UpdatingTable() {
                 </TableBody>
             </Table>
 
-            {/* Conditionally render EditForm when in edit mode */}
-            {isEditMode && <EditForm item={selectedItem} onSave={handleSaveEdit} onCancel={handleCancelEdit} />}
+            {isModalOpen && modalType === 'edit' && selectedItem && (
+                <PopUp isOpen={isModalOpen} onClose={handleCloseModal} onConfirm={() => {}} description="Edit Car">
+                    <EditCarForm item={selectedItem} onSave={handleSaveEdit} onCancel={handleCancelEdit} />
+                </PopUp>
+            )}
 
-            {/* Pop-up for Delete Confirmation */}
-            <PopUp
-                isOpen={isModalOpen}
-                onClose={handleCloseModal}
-                onConfirm={handleConfirmDelete}
-                itemName={itemToDelete?.title || 'item'}
-            />
+            {isModalOpen && modalType === 'delete' && itemToDelete && (
+                <PopUp
+                    isOpen={isModalOpen}
+                    onClose={handleCloseModal}
+                    onConfirm={handleConfirmDelete}
+                    title="Are You Sure You Want to Delete?"
+                    confirmLabel="Delete"
+                    cancelLabel="Cancel"
+                    confirmStyle={{ backgroundColor: '#18538c', color: 'white' }}
+                    cancelStyle={{ backgroundColor: '#18538c', color: 'white' }}
+                />
+            )}
         </div>
     );
 }

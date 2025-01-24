@@ -1,46 +1,70 @@
 import React from 'react';
 import Button from '../buttons';
 import { TextAnimate } from '../ui/text-animate';
-import TypingAnimation from '../ui/typing-animation';
 
 interface PopUpProps {
     isOpen: boolean;
     onClose: () => void;
     onConfirm: () => void;
-    itemName: string;
+    title?: string;
+    description?: string;
+    confirmLabel?: string;
+    cancelLabel?: string;
+    confirmStyle?: React.CSSProperties;
+    cancelStyle?: React.CSSProperties;
+    children?: React.ReactNode; // Add children to props
 }
 
-const PopUp: React.FC<PopUpProps> = ({ isOpen, onClose, onConfirm }) => {
+const PopUp: React.FC<PopUpProps> = ({
+    isOpen,
+    onClose,
+    onConfirm,
+    title = '',
+    description = '',
+    confirmLabel,
+    cancelLabel,
+    confirmStyle,
+    cancelStyle,
+    children,
+}) => {
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white p-10 rounded-md">
-                <h2 className="text-xl">
-                    <TextAnimate animation="blurInUp" by="character" style={{ fontSize: '17px' }}>
-                        Are You Sure You Want Delete?
+        <div className="fixed inset-0 flex items-center justify-center z-50">
+            <div className="bg-[#c8d5ef] p-6 rounded-md shadow-md w-full h-[60%] max-w-lg">
+                <h3 className="text-xl font-bold mb-4 text-center">
+                    <TextAnimate animation="blurInUp" by="character">
+                        {title}
                     </TextAnimate>
-                </h2>
-                <div className="mt-4 flex justify-end">
-                    <div className="flex justify-center gap-4 mx-auto">
-                        <Button
-                            label="Cancel"
-                            onClick={onClose}
-                            size="medium"
-                            style={{ backgroundColor: '#18538c' }}
-                            variant="outline"
-                            borderRadius="medium"
-                        />
-                        <Button
-                            label="Delete"
-                            onClick={onConfirm}
-                            size="medium"
-                            style={{ backgroundColor: '#18538c' }}
-                            variant="outline"
-                            borderRadius="medium"
-                        />
+                </h3>
+                <h4 className="text-[#18538c] text-xl font-bold text-center mb-6">{description}</h4>
+
+                <div className="mb-6">{children}</div>
+
+                {(confirmLabel || cancelLabel) && (
+                    <div className="flex justify-center gap-4">
+                        {cancelLabel && (
+                            <Button
+                                label={cancelLabel}
+                                onClick={onClose}
+                                size="medium"
+                                style={cancelStyle || { backgroundColor: '#18538c', color: '#fff' }}
+                                variant="outline"
+                                borderRadius="medium"
+                            />
+                        )}
+                        {confirmLabel && (
+                            <Button
+                                label={confirmLabel}
+                                onClick={onConfirm}
+                                size="medium"
+                                style={confirmStyle || { backgroundColor: '#d9534f', color: '#fff' }}
+                                variant="solid"
+                                borderRadius="medium"
+                            />
+                        )}
                     </div>
-                </div>
+                )}
             </div>
         </div>
     );

@@ -88,7 +88,7 @@ const EditForm: React.FC<EditFormProps> = ({ item, onSave, onCancel }) => {
     };
 
     return (
-        <form className="p-4 border border-gray-200 bg-[#c8d5ef] rounded-lg max-h-[80vh] overflow-y-auto" onSubmit={handleSubmit}>
+        <form className="p-4 border border-gray-200 bg-[#c8d5ef] rounded-lg max-h-[90vh] overflow-y-auto" onSubmit={handleSubmit}>
             <div className="space-y-4">
                 <div style={{ marginBottom: '15px' }}>
                     <Input
@@ -159,7 +159,6 @@ const EditForm: React.FC<EditFormProps> = ({ item, onSave, onCancel }) => {
                         variant="outline"
                         borderRadius="medium"
                         type="submit"
-                        // disabled={isSubmitting}
                     />
                 </div>
                 <ToastBar toasts={toasts} removeToast={removeToast} />{' '}
