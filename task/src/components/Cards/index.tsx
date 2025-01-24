@@ -54,19 +54,19 @@ export const ExpandableCardDemo: React.FC<ExpandableCardDemoProps> = ({ cards })
                                 height={50}
                                 src={card.src}
                                 alt={card.title}
-                                className="h-60 w-full rounded-lg object-cover object-top"
+                                className="h-60 w-full rounded-lg  object-cover object-top"
                             />
                         </motion.div>
                         <div className="flex justify-center items-center flex-col">
                             <motion.h3
                                 layoutId={`title-${card.id}-${id}`}
-                                className="font-medium text-neutral-800 dark:text-neutral-200 text-center md:text-left text-base"
+                                className="font-medium text-text dark:text-neutral-200 text-center md:text-left text-base"
                             >
                                 {card.title}
                             </motion.h3>
                             <motion.p
                                 layoutId={`description-${card.id}-${id}`}
-                                className="text-neutral-600 dark:text-neutral-400 text-center md:text-left text-base"
+                                className="text-des dark:text-neutral-400 text-center md:text-left text-base"
                             >
                                 {card.description}
                             </motion.p>

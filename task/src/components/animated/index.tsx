@@ -41,7 +41,7 @@ export function AnimatedModalDemo({
         <div className="py-5 flex items-center justify-center">
             <Modal>
                 <div onClick={handleRedirect}>
-                    <ModalTrigger className="bg-[#18538c] dark:bg-white dark:text-black text-white flex justify-center group/modal-btn">
+                    <ModalTrigger className="bg-text dark:bg-white dark:text-black text-white flex justify-center group/modal-btn">
                         <span className="group-hover/modal-btn:translate-x-40 text-center transition duration-500">{triggerLabel}</span>
                         <div className="-translate-x-40 group-hover/modal-btn:translate-x-0 flex items-center justify-center absolute inset-0 transition duration-500 text-white z-20">
                             <Icon icon={triggerIcon} width={26} />
@@ -51,7 +51,7 @@ export function AnimatedModalDemo({
                 {!path && (
                     <ModalBody className="max-h-[90vh] overflow-y-auto">
                         <ModalContent>
-                            <h4 className="flex items-center justify-center text-lg md:text-2xl text-neutral-600 dark:text-neutral-100 font-bold text-center mb-8">
+                            <h4 className="flex items-center justify-center text-lg md:text-2xl text-text dark:text-neutral-100 font-bold text-center mb-8">
                                 {modalTitle}
                                 <Icon icon={appIcons.car} className="mb-2 ml-2" width={40} />
                             </h4>

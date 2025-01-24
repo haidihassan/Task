@@ -18,14 +18,14 @@ const SearchComponent: React.FC<SearchComponentProps> = ({ placeholder = 'Search
                 placeholder={placeholder}
                 value={value}
                 onChange={onChange}
-                className="py-2 pl-10 pr-10 border rounded-md shadow-sm outline-none focus:ring-2 focus:ring-[#9385cf] focus:border-[#9385cf]"
+                className="py-2 pl-10 pr-10 border rounded-md shadow-sm outline-none focus:ring-2 focus:ring-text focus:border-text"
             />
             {/* Icon inside the input */}
             <div className="absolute left-3 text-gray-400 pointer-events-none">{icon}</div>
             {/* Clear button */}
             {value && (
                 <button type="button" onClick={onClear} className="right-0 -ml-8 text-gray-400 hover:text-gray-600">
-                    <Icon icon={appIcons.close} width={25} />
+                    <Icon icon={appIcons.close} width={25} className="text-text-color" />
                 </button>
             )}
         </div>

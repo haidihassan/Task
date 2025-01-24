@@ -43,7 +43,7 @@ const Button: React.FC<ButtonProps> = ({
     style,
 }) => {
     const colorClasses = {
-        default: 'bg-primary text-white hover:bg-background-hover',
+        default: 'bg-text text-white',
         white: 'bg-transparent text-black',
         custom2: 'bg-primary text-black border border-border-gray-200 hover:bg-[#F5F5F5]',
         custom3: `bg-white text-primary ${outLineColor ? outLineColor : 'border-primary'} border-[1px] hover:bg-transparent font-normal`,

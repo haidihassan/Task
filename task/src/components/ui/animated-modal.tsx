@@ -69,7 +69,7 @@ export const ModalBody = ({ children, className }: { children: ReactNode; classN
                     <motion.div
                         ref={modalRef} // Attach the ref to the modal container
                         className={cn(
-                            'min-h-[50%] max-h-[90%] md:max-w-[40%] bg-[#c8d5ef] dark:bg-neutral-950 border border-transparent dark:border-neutral-800 md:rounded-2xl relative z-50 flex flex-col flex-1 overflow-hidden',
+                            'min-h-[50%] max-h-[90%] md:max-w-[40%] bg-bg dark:bg-neutral-950 border border-transparent dark:border-neutral-800 md:rounded-2xl relative z-50 flex flex-col flex-1 overflow-hidden',
                             className
                         )}
                         initial={{

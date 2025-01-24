@@ -31,13 +31,13 @@ const PopUp: React.FC<PopUpProps> = ({
 
     return (
         <div className="fixed inset-0 flex items-center justify-center z-50">
-            <div className="bg-[#c8d5ef] p-6 rounded-md shadow-md w-full max-w-md">
+            <div className="bg-bg p-6 rounded-md shadow-md w-full max-w-md">
                 <h3 className="text-xl font-bold mb-4 text-center">
                     <TextAnimate animation="blurInUp" by="character">
                         {title}
                     </TextAnimate>
                 </h3>
-                <h4 className="text-[#18538c] text-xl font-bold text-center mb-6">{description}</h4>
+                <h4 className="text-text text-xl font-bold text-center mb-6">{description}</h4>
 
                 <div className="mb-6">{children}</div>
 

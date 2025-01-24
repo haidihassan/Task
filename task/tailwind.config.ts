@@ -10,6 +10,9 @@ export default {
   theme: {
   	extend: {
   		colors: {
+			text: '#18538c',
+			des:"#18448c",
+			bg:"#c8d5ef",
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {
@@ -21,7 +24,7 @@ export default {
   				foreground: 'hsl(var(--popover-foreground))'
   			},
   			primary: {
-  				DEFAULT: 'hsl(var(--primary))',
+  				DEFAULT: '[var(--text-color)]',
   				foreground: 'hsl(var(--primary-foreground))'
   			},
   			secondary: {
@@ -55,7 +58,7 @@ export default {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
-  		}
+  		},
   	}
   },
   plugins: [require("tailwindcss-animate")],

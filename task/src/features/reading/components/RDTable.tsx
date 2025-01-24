@@ -86,22 +86,22 @@ export default function RDTable() {
         setSelectedItem(null);
     };
 
-    if (loading) return <div>Loading...</div>;
-    if (error) return <div>{error}</div>;
+    if (loading) return <div className="text-text">Loading...</div>;
+    if (error) return <div className="text-text">{error}</div>;
 
     return (
         <div className="overflow-x-auto">
-            <div className="flex justify-between items-center min-h-screen px-4" style={{ marginBottom: '20px' }}>
-                <div className="flex-1" style={{ marginLeft: '-17px' }}>
+            <div className="flex justify-between items-center min-h-screen px-5" style={{ marginBottom: '20px' }}>
+                <div className="flex-1">
                     <SearchComponent
                         placeholder="Search for items..."
                         value={searchValue}
                         onChange={handleSearchChange}
                         onClear={handleClearSearch}
-                        icon={<Icon icon={appIcons.search} width={25} />}
+                        icon={<Icon icon={appIcons.search} width={25} color="#18538c" />}
                     />
                 </div>
-                <div style={{ marginBottom: '20px', marginRight: '-15px' }}>
+                <div style={{ marginBottom: '20px' }}>
                     <Button
                         label="Go back"
                         style={{ backgroundColor: '#18538c' }}
