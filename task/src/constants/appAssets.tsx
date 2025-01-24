@@ -1,7 +1,7 @@
 export const appAssets = {
-    create: '/Assets/Create.png',
+    create: '/Assets/AddCar.png',
     read: '/Assets/Read.png',
-    update: '/Assets/Update.png',
+    update: '/Assets/EditCar.png',
     delete: '/Assets/Delete.png',
     car1: '/Assets/car1.png',
     car2: '/Assets/car2.png',

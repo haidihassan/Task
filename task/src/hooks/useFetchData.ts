@@ -2,7 +2,9 @@
 
 import { useState, useEffect } from 'react';
 
-const useFetchData = <T>(url: string): { data: T | null; loading: boolean; error: string } => {
+const useFetchData = <T>(): { data: T | null; loading: boolean; error: string } => {
+    const url = process.env.NEXT_PUBLIC_API_URL;
+
     const [data, setData] = useState<T | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string>('');
@@ -10,6 +12,9 @@ const useFetchData = <T>(url: string): { data: T | null; loading: boolean; error
     useEffect(() => {
         const fetchData = async () => {
             try {
+                if (!url) {
+                    throw new Error('API URL is not defined in the environment variables.');
+                }
                 const response = await fetch(url, {
                     method: 'GET',
                     headers: {
