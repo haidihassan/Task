@@ -1,4 +1,3 @@
-// components/ui/CustomDropdown.tsx
 import { appIcons } from '@/constants/appIcons';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import React, { useState } from 'react';
@@ -26,11 +25,10 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({ label, options, selecte
     return (
         <div className="relative">
             {label && <label className="block mb-2">{label}</label>} {/* Conditionally render label */}
-            <div
-                className="cursor-pointer p-2 border border-gray-200 text-[#888888] rounded flex justify-between items-center"
-                onClick={toggleDropdown}
-            >
-                <span>{selectedValue || placeholder}</span> {/* Display placeholder if no selected value */}
+            <div className="cursor-pointer p-2 border border-gray-200 rounded flex justify-between items-center" onClick={toggleDropdown}>
+                <span className={selectedValue ? 'text-black' : 'text-gray-500'}>
+                    {selectedValue || placeholder} {/* If no selected value, show placeholder */}
+                </span>
                 <Icon icon={isDropdownOpen ? appIcons.uparrow : appIcons.downarrow} width={16} color="#18538c" />
             </div>
             {isDropdownOpen && (
