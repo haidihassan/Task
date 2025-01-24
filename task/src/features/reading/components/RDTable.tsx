@@ -1,16 +1,16 @@
 'use client';
 import React, { useState } from 'react';
 import { Table, TableHeader, TableRow, TableCell, TableBody } from '@/components/ui/table';
-import { Tableheads } from '../constants/constants';
+import { Tableheads } from '../../updating/constants/constants';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { appIcons } from '@/constants/appIcons';
-import useFetchData from '@/hooks/useFetchData';
+import useFetchData from '@/features/reading/hooks/useFetchData';
 import PopUp from '@/components/popup';
 import useToast from '@/hooks/useToast';
 import { DeleteItem } from '../../deleting/utils/DeleteItem';
 import SearchComponent from '@/components/search';
-import EditForm from './EditForm';
-import { EditItem } from '../utils/EditItem';
+import EditForm from '../../updating/components/EditCarForm';
+import { EditItem } from '../../updating/utils/EditItem';
 import Button from '@/components/buttons';
 import { useRouter } from 'next/navigation';
 
