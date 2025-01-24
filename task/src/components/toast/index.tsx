@@ -17,7 +17,7 @@ interface ToastBarProps {
 
 const ToastBar = ({ toasts, removeToast }: ToastBarProps) => {
     return (
-        <div className="fixed top-0 right-1 z-50 ">
+        <div className="fixed top-10 right-2 z-50 ">
             {toasts.map((toast) => (
                 <div
                     key={toast.id}

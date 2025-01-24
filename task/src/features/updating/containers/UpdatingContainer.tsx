@@ -1,5 +1,5 @@
 import { TextAnimate } from '@/components/ui/text-animate';
-import UpdatingTable from '../components/UpdatingTable';
+import UpdatingTable from '../../reading/components/RDTable';
 import React from 'react';
 
 export default function UpdateContainer() {

@@ -1,4 +1,3 @@
-// components/ui/CustomDropdown.tsx
 import { appIcons } from '@/constants/appIcons';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import React, { useState } from 'react';
@@ -25,20 +24,22 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({ label, options, selecte
 
     return (
         <div className="relative">
-            {label && <label className="block mb-2">{label}</label>} {/* Conditionally render label */}
+            {label && <label className="block mb-2">{label}</label>}
             <div
-                className="cursor-pointer p-2 border border-gray-200 text-[#888888] rounded flex justify-between items-center"
+                className="cursor-pointer p-2 border border-gray-200 rounded flex justify-between items-center"
                 onClick={toggleDropdown}
             >
-                <span>{selectedValue || placeholder}</span> {/* Display placeholder if no selected value */}
+                <span className={selectedValue ? 'text-black' : 'text-gray-500'}>
+                    {selectedValue || placeholder}
+                </span>
                 <Icon icon={isDropdownOpen ? appIcons.uparrow : appIcons.downarrow} width={16} color="#18538c" />
             </div>
             {isDropdownOpen && (
-                <div className="absolute left-0 right-0 mt-1 bg-white border border-gray-200 rounded shadow-lg z-10">
+                <div className="absolute left-0 right-0 mt-1 bg-[#d0d9ed] border border-gray-200 rounded shadow-lg z-10">
                     {options.map((option, index) => (
                         <div
                             key={index}
-                            className="p-2 hover:bg-gray-100  border-b-2  border-gray-200 cursor-pointer"
+                            className="p-2 hover:bg-gray-100 border-b border-gray-200 cursor-pointer text-left"
                             onClick={() => handleSelect(option)}
                         >
                             {option}
