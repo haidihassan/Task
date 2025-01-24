@@ -11,6 +11,8 @@ import { DeleteItem } from '../../deleting/utils/DeleteItem';
 import SearchComponent from '@/components/search';
 import EditForm from './EditForm';
 import { EditItem } from '../utils/EditItem';
+import Button from '@/components/buttons';
+import { useRouter } from 'next/navigation';
 
 export default function UpdatingTable() {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -20,7 +22,7 @@ export default function UpdatingTable() {
     }
     const { data: carsData, loading, error } = useFetchData<any[]>(apiUrl);
     const { addToast } = useToast();
-
+    const router = useRouter();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [itemToDelete, setItemToDelete] = useState<any>(null);
     const [isDeleting, setIsDeleting] = useState(false);
@@ -99,14 +101,26 @@ export default function UpdatingTable() {
 
     return (
         <div className="overflow-x-auto">
-            <div className="flex justify-center items-center min-h-screen">
-                <div className="mx-auto">
+            <div className="flex justify-between items-center min-h-screen px-4">
+                <div className="flex-1">
                     <SearchComponent
                         placeholder="Search for items..."
                         value={searchValue}
                         onChange={handleSearchChange}
                         onClear={handleClearSearch}
                         icon={<Icon icon={appIcons.search} width={25} />}
+                    />
+                </div>
+                <div className="ml-4 " style={{ marginBottom: '20px' }}>
+                    <Button
+                        label="Go back"
+                        style={{ backgroundColor: '#6e5ea3' }}
+                        size="large"
+                        variant="outline"
+                        borderRadius="medium"
+                        onClick={() => router.back()}
+                        icon={<Icon icon={appIcons.back} width={20} />}
+                        iconPosition="left"
                     />
                 </div>
             </div>

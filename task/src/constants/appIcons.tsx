@@ -10,4 +10,5 @@ export const appIcons = {
     submit: 'formkit:submit',
     search:"material-symbols-light:search-rounded",
     close:"material-symbols-light:close-rounded",
+    back:'mingcute:back-2-line',
 };
