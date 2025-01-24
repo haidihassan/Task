@@ -1,7 +1,7 @@
 import CustomDropdown from '@/components/dropdown';
 import { Input } from '@/components/ui/input';
 import React, { useState, useEffect } from 'react';
-import { useRouter, useParams } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import Button from '@/components/buttons';
 import ToastBar from '@/components/toast';
 import useToast from '@/hooks/useToast';
@@ -13,9 +13,8 @@ interface EditFormProps {
     onCancel: () => void;
 }
 
-const EditForm: React.FC<EditFormProps> = ({ onSave, onCancel }) => {
-    const { toasts, removeToast } = useToast();
-    // const router = useRouter();
+const EditForm: React.FC<EditFormProps> = ({ item, onSave, onCancel }) => {
+    const { toasts, addToast, removeToast } = useToast();
     const id: string | string[] | undefined = useParams().id;
     const [formData, setFormData] = useState({
         brand: '',
@@ -27,32 +26,42 @@ const EditForm: React.FC<EditFormProps> = ({ onSave, onCancel }) => {
         price: '',
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
-    // const [showForm, setShowForm] = useState(true);
 
     useEffect(() => {
-        // console.log("id:",id);
-        const fetchData = async () => {
-            if (id) {
-                try {
-                    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-                    const response = await fetch(`${apiUrl}${id}`);
-                    const data = await response.json();
-                    setFormData({
-                        brand: data.brand,
-                        type: data.type,
-                        model: data.model,
-                        year: data.year,
-                        img: data.img,
-                        engine: data.engine,
-                        price: data.price,
-                    });
-                } catch (error) {
-                    console.error('Failed to fetch data:', error);
+        if (item) {
+            setFormData({
+                brand: item.brand || '',
+                type: item.type || '',
+                model: item.model || '',
+                year: item.year || '',
+                img: item.img || '',
+                engine: item.engine || '',
+                price: item.price || '',
+            });
+        } else {
+            const fetchData = async () => {
+                if (id) {
+                    try {
+                        const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+                        const response = await fetch(`${apiUrl}${id}`);
+                        const data = await response.json();
+                        setFormData({
+                            brand: data.brand,
+                            type: data.type,
+                            model: data.model,
+                            year: data.year,
+                            img: data.img,
+                            engine: data.engine,
+                            price: data.price,
+                        });
+                    } catch (error) {
+                        console.error('Failed to fetch data:', error);
+                    }
                 }
-            }
-        };
-        fetchData();
-    }, [id]);
+            };
+            fetchData();
+        }
+    }, [id, item]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
@@ -65,24 +74,17 @@ const EditForm: React.FC<EditFormProps> = ({ onSave, onCancel }) => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        onSave(formData);
         setIsSubmitting(true);
 
-        // try {
-        //     const result: { success: boolean; error: string } = await EditItem(id, formData);
-        //     if (result.success) {
-        //         addToast('Item edited successfully', 'success');
-        //         console.log('Item edited successfully', result);
-        //         setTimeout(() => {
-        //             router.push(appPaths.update);
-        //         }, 1000);
-        //     } else {
-        //         addToast(`An error occurred: ${result.error}`, 'error');
-        //         console.log('error', result.error);
-        //     }
-        // } finally {
-        //     setIsSubmitting(false);
-        // }
+        try {
+            await onSave(formData);
+            addToast('Item updated successfully!', 'success'); // Adding success toast
+            // onCancel(); // Close the form or redirect after success
+        } catch (error) {
+            addToast('Failed to update item. Please try again.', 'error');
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     return (
@@ -144,22 +146,23 @@ const EditForm: React.FC<EditFormProps> = ({ onSave, onCancel }) => {
                 <div className="flex justify-center gap-4">
                     <Button
                         label="Cancel"
-                        style={{ backgroundColor: '#6e5ea3' }}
+                        style={{ backgroundColor: '#18538c' }}
                         size="default"
                         variant="outline"
                         borderRadius="medium"
                         onClick={onCancel}
                     />
                     <Button
-                        label={isSubmitting ? 'saving...' : 'Save'}
-                        style={{ backgroundColor: '#6e5ea3' }}
+                        label={isSubmitting ? 'Saving...' : 'Save'}
+                        style={{ backgroundColor: '#18538c' }}
                         size="default"
                         variant="outline"
                         borderRadius="medium"
                         type="submit"
+                        // disabled={isSubmitting}
                     />
                 </div>
-                <ToastBar toasts={toasts} removeToast={removeToast} />
+                <ToastBar toasts={toasts} removeToast={removeToast} />{' '}
             </div>
         </form>
     );

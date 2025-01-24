@@ -31,7 +31,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({ label, options, selecte
                 onClick={toggleDropdown}
             >
                 <span>{selectedValue || placeholder}</span> {/* Display placeholder if no selected value */}
-                <Icon icon={isDropdownOpen ? appIcons.uparrow : appIcons.downarrow} width={16} color="#6e5ea3" />
+                <Icon icon={isDropdownOpen ? appIcons.uparrow : appIcons.downarrow} width={16} color="#18538c" />
             </div>
             {isDropdownOpen && (
                 <div className="absolute left-0 right-0 mt-1 bg-white border border-gray-200 rounded shadow-lg z-10">

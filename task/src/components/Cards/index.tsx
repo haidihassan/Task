@@ -45,7 +45,7 @@ export const ExpandableCardDemo: React.FC<ExpandableCardDemoProps> = ({ cards })
                 <motion.div
                     layoutId={`card-${card.id}-${id}`}
                     key={card.id}
-                    className="p-4 flex flex-col hover:bg-[#ebe3f1] dark:hover:bg-neutral-800 rounded-xl"
+                    className="p-4 flex flex-col hover:bg-[#c3dcf4] dark:hover:bg-neutral-800 rounded-xl"
                 >
                     <div className="flex gap-4 flex-col w-full">
                         <motion.div layoutId={`image-${card.id}-${id}`}>

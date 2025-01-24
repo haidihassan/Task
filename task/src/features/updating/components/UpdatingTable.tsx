@@ -15,12 +15,7 @@ import Button from '@/components/buttons';
 import { useRouter } from 'next/navigation';
 
 export default function UpdatingTable() {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-
-    if (!apiUrl) {
-        throw new Error('API URL is not defined in the environment variables.');
-    }
-    const { data: carsData, loading, error } = useFetchData<any[]>(apiUrl);
+    const { data: carsData, loading, error } = useFetchData<any[]>();
     const { addToast } = useToast();
     const router = useRouter();
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -102,6 +97,7 @@ export default function UpdatingTable() {
     return (
         <div className="overflow-x-auto">
             <div className="flex justify-between items-center min-h-screen px-4">
+                {/* Search Component and Go Back Button */}
                 <div className="flex-1">
                     <SearchComponent
                         placeholder="Search for items..."
@@ -114,7 +110,7 @@ export default function UpdatingTable() {
                 <div className="ml-4 " style={{ marginBottom: '20px' }}>
                     <Button
                         label="Go back"
-                        style={{ backgroundColor: '#6e5ea3' }}
+                        style={{ backgroundColor: '#18538c' }}
                         size="large"
                         variant="outline"
                         borderRadius="medium"
@@ -124,11 +120,12 @@ export default function UpdatingTable() {
                     />
                 </div>
             </div>
-            <Table className="min-w-full mt-4">
+
+            <Table className="min-w-full mt-4 text-white">
                 <TableHeader>
                     <TableRow>
                         {Tableheads.map((header) => (
-                            <TableCell key={header.key} className={`p-4 border ${header.align ? `text-${header.align}` : ''}`}>
+                            <TableCell key={header.key} className={`p-4 ${header.align ? `text-${header.align}` : ''}`}>
                                 {header.label}
                             </TableCell>
                         ))}
@@ -138,19 +135,21 @@ export default function UpdatingTable() {
                     {filteredData?.map((row, index) => (
                         <TableRow key={index}>
                             {Tableheads.map((header) => (
-                                <TableCell key={header.key} className={`p-4 border ${header.align ? `text-${header.align}` : ''}`}>
+                                <TableCell key={header.key} className={`p-4 ${header.align ? `text-${header.align}` : ''}`}>
                                     {header.key === 'img' ? (
                                         <img src={row[header.key]} alt={row.brand} className="w-16 h-16 object-cover" />
                                     ) : header.key === 'Actions' ? (
-                                        <div className="flex space-x-5 items-center">
+                                        <div className="flex space-x-10 items-center">
                                             <Icon
                                                 icon={appIcons.edit}
+                                                color="#18538c"
                                                 width={20}
-                                                onClick={() => handleEditClick(row)}
+                                                onClick={() => handleEditClick(row)} // Call handleEditClick to open the edit form
                                                 className="cursor-pointer"
                                             />
                                             <Icon
                                                 icon={appIcons.delete}
+                                                color="#18538c"
                                                 width={20}
                                                 onClick={() => handleDeleteClick(row)}
                                                 className="cursor-pointer"
@@ -172,7 +171,11 @@ export default function UpdatingTable() {
                     )}
                 </TableBody>
             </Table>
+
+            {/* Conditionally render EditForm when in edit mode */}
             {isEditMode && <EditForm item={selectedItem} onSave={handleSaveEdit} onCancel={handleCancelEdit} />}
+
+            {/* Pop-up for Delete Confirmation */}
             <PopUp
                 isOpen={isModalOpen}
                 onClose={handleCloseModal}

@@ -45,6 +45,7 @@ export default function CarsForm() {
 
         if (result.success) {
             addToast('Car Created successfully', 'success');
+            router.push(appPaths.update);
         } else {
             addToast(`An error occurred: ${result.error}`, 'error');
         }
@@ -52,17 +53,9 @@ export default function CarsForm() {
         setIsSubmitting(false);
     };
 
-    useEffect(() => {
-        if (toasts.some((toast) => toast.type === 'success')) {
-            setTimeout(() => {
-                router.push(appPaths.update);
-            }, 1000);
-        }
-    }, [toasts, router]);
-
     return (
         <form className="p-4 border border-gray-200 rounded-lg" onSubmit={handleSubmit}>
-            <div className="space-y-4">
+            <div className="space-y-4 text-black">
                 <div style={{ marginBottom: '15px' }}>
                     <Input
                         type="text"
@@ -119,7 +112,7 @@ export default function CarsForm() {
 
                 <Button
                     label={isSubmitting ? 'Submitting...' : 'Submit'}
-                    style={{ backgroundColor: '#6e5ea3' }}
+                    style={{ backgroundColor: '#18538c' }}
                     size="default"
                     variant="outline"
                     borderRadius="medium"
