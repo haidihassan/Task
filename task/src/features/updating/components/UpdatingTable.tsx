@@ -124,7 +124,7 @@ export default function UpdatingTable() {
                     />
                 </div>
             </div>
-            <Table className="min-w-full mt-4">
+            <Table className="min-w-full mt-4 text-white">
                 <TableHeader>
                     <TableRow>
                         {Tableheads.map((header) => (
