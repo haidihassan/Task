@@ -48,7 +48,7 @@ const PopUp: React.FC<PopUpProps> = ({
                                 label={cancelLabel}
                                 onClick={onClose}
                                 size="medium"
-                                style={cancelStyle || { backgroundColor: '#18538c', color: '#fff' }}
+                                style={cancelStyle || { backgroundColor: '#18538c', color: 'white' }}
                                 variant="outline"
                                 borderRadius="medium"
                             />
@@ -58,7 +58,7 @@ const PopUp: React.FC<PopUpProps> = ({
                                 label={confirmLabel}
                                 onClick={onConfirm}
                                 size="medium"
-                                style={confirmStyle || { backgroundColor: '#d9534f', color: '#fff' }}
+                                style={confirmStyle || { backgroundColor: '#d9534f', color: 'white' }}
                                 variant="solid"
                                 borderRadius="medium"
                             />

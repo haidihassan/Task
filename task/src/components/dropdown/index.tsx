@@ -32,10 +32,10 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({ label, options, selecte
                 <span className={selectedValue ? 'text-black' : 'text-gray-500'}>
                     {selectedValue || placeholder}
                 </span>
-                <Icon icon={isDropdownOpen ? appIcons.uparrow : appIcons.downarrow} width={16} color="#18538c" />
+                <Icon icon={isDropdownOpen ? appIcons.uparrow : appIcons.downarrow} width={16} className='text-text' />
             </div>
             {isDropdownOpen && (
-                <div className="absolute left-0 right-0 mt-1 bg-[#d0d9ed] border border-gray-200 rounded shadow-lg z-10">
+                <div className="absolute left-0 right-0 mt-1 bg-bg border border-gray-200 rounded shadow-lg z-10">
                     {options.map((option, index) => (
                         <div
                             key={index}

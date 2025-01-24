@@ -136,17 +136,15 @@ export default function RDTable() {
                                         <div className="flex space-x-10 items-center">
                                             <Icon
                                                 icon={appIcons.edit}
-                                                color="#18538c"
                                                 width={20}
                                                 onClick={() => handleEditClick(row)}
-                                                className="cursor-pointer"
+                                                className="cursor-pointer text-text"
                                             />
                                             <Icon
                                                 icon={appIcons.delete}
-                                                color="#18538c"
                                                 width={20}
                                                 onClick={() => handleDeleteClick(row)}
-                                                className="cursor-pointer"
+                                                className="cursor-pointer text-text"
                                             />
                                         </div>
                                     ) : (
