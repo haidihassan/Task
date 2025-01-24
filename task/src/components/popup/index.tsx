@@ -31,7 +31,7 @@ const PopUp: React.FC<PopUpProps> = ({
 
     return (
         <div className="fixed inset-0 flex items-center justify-center z-50">
-            <div className="bg-[#c8d5ef] p-6 rounded-md shadow-md w-full h-[60%] max-w-lg">
+            <div className="bg-[#c8d5ef] p-6 rounded-md shadow-md w-full max-w-md">
                 <h3 className="text-xl font-bold mb-4 text-center">
                     <TextAnimate animation="blurInUp" by="character">
                         {title}
