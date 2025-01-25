@@ -1,4 +1,5 @@
 'use client';
+
 import React, { useState } from 'react';
 import { Table, TableHeader, TableRow, TableCell, TableBody } from '@/components/ui/table';
 import { Tableheads } from '../../updating/constants/constants';
@@ -13,9 +14,10 @@ import EditCarForm from '../../updating/components/EditCarForm';
 import { EditItem } from '../../updating/utils/EditItem';
 import Button from '@/components/buttons';
 import { useRouter } from 'next/navigation';
+import Pagination from '@/components/pagination';
 
 export default function RDTable() {
-    const { data: carsData, loading, error } = useFetchData<any[]>();
+    const { data: carsData, loading, error, refetch } = useFetchData<any[]>();
     const { addToast } = useToast();
     const router = useRouter();
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,9 +26,20 @@ export default function RDTable() {
     const [searchValue, setSearchValue] = useState('');
     const [selectedItem, setSelectedItem] = useState<any>(null);
     const [modalType, setModalType] = useState<'edit' | 'delete' | null>(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const rowsPerPage = 2;
 
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => setSearchValue(e.target.value);
     const handleClearSearch = () => setSearchValue('');
+
+    const filteredData = carsData?.filter((item) =>
+        Tableheads.some((header) =>
+            typeof item[header.key] === 'string' ? item[header.key].toLowerCase().includes(searchValue.toLowerCase()) : false
+        )
+    );
+
+    const totalPages = Math.ceil((filteredData?.length || 0) / rowsPerPage);
+    const currentData = filteredData?.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
 
     const handleDeleteClick = (item: any) => {
         setItemToDelete(item);
@@ -43,6 +56,7 @@ export default function RDTable() {
 
         if (result.success) {
             addToast('Item deleted successfully!', 'success');
+            refetch();
             setIsModalOpen(false);
             setItemToDelete(null);
         } else {
@@ -64,16 +78,11 @@ export default function RDTable() {
         setIsModalOpen(true);
     };
 
-    const filteredData = carsData?.filter((item) =>
-        Tableheads.some((header) =>
-            typeof item[header.key] === 'string' ? item[header.key].toLowerCase().includes(searchValue.toLowerCase()) : false
-        )
-    );
-
     const handleSaveEdit = async (updatedData: any) => {
         try {
             await EditItem(selectedItem.id, updatedData);
             addToast('Item updated successfully!', 'success');
+            refetch();
             setIsModalOpen(false);
             setSelectedItem(null);
         } catch (error) {
@@ -92,27 +101,23 @@ export default function RDTable() {
     return (
         <div className="overflow-x-auto">
             <div className="flex justify-between items-center min-h-screen px-5" style={{ marginBottom: '20px' }}>
-                <div className="flex-1">
-                    <SearchComponent
-                        placeholder="Search for items..."
-                        value={searchValue}
-                        onChange={handleSearchChange}
-                        onClear={handleClearSearch}
-                        icon={<Icon icon={appIcons.search} width={25} color="#18538c" />}
-                    />
-                </div>
-                <div style={{ marginBottom: '20px' }}>
-                    <Button
-                        label="Go back"
-                        style={{ backgroundColor: '#18538c' }}
-                        size="large"
-                        variant="outline"
-                        borderRadius="medium"
-                        onClick={() => router.back()}
-                        icon={<Icon icon={appIcons.back} width={20} />}
-                        iconPosition="left"
-                    />
-                </div>
+                <SearchComponent
+                    placeholder="Search for items..."
+                    value={searchValue}
+                    onChange={handleSearchChange}
+                    onClear={handleClearSearch}
+                    icon={<Icon icon={appIcons.search} width={25} color="#18538c" />}
+                />
+                <Button
+                    label="Go back"
+                    style={{ backgroundColor: '#18538c' }}
+                    size="large"
+                    variant="outline"
+                    borderRadius="medium"
+                    onClick={() => router.back()}
+                    icon={<Icon icon={appIcons.back} width={20} />}
+                    iconPosition="left"
+                />
             </div>
 
             <Table className="min-w-full mt-4 text-white">
@@ -126,7 +131,7 @@ export default function RDTable() {
                     </TableRow>
                 </TableHeader>
                 <TableBody className="max-h-100vh overflow-y-auto">
-                    {filteredData?.map((row, index) => (
+                    {currentData?.map((row, index) => (
                         <TableRow key={index}>
                             {Tableheads.map((header) => (
                                 <TableCell key={header.key} className={`p-4 ${header.align ? `text-${header.align}` : ''}`}>
@@ -154,7 +159,7 @@ export default function RDTable() {
                             ))}
                         </TableRow>
                     ))}
-                    {filteredData?.length === 0 && (
+                    {currentData?.length === 0 && (
                         <TableRow>
                             <TableCell colSpan={Tableheads.length} className="text-center p-4">
                                 No results found.
@@ -164,6 +169,11 @@ export default function RDTable() {
                 </TableBody>
             </Table>
 
+            {totalPages > 1 && (
+                <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage}>
+                    {/* <div className="text-center mt-2 text-gray-600">More items on the next page</div> */}
+                </Pagination>
+            )}
             {isModalOpen && modalType === 'edit' && selectedItem && (
                 <PopUp isOpen={isModalOpen} onClose={handleCloseModal} onConfirm={() => {}} description="Edit Car">
                     <EditCarForm item={selectedItem} onSave={handleSaveEdit} onCancel={handleCancelEdit} />
