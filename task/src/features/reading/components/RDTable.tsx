@@ -108,9 +108,10 @@ export default function RDTable() {
                     onClear={handleClearSearch}
                     icon={<Icon icon={appIcons.search} width={25} color="#18538c" />}
                 />
+
                 <Button
                     label="Go back"
-                    style={{ backgroundColor: '#18538c' }}
+                    style={{ backgroundColor: '#18538c', marginBottom: '20px' }}
                     size="large"
                     variant="outline"
                     borderRadius="medium"
@@ -169,9 +170,7 @@ export default function RDTable() {
                 </TableBody>
             </Table>
 
-            {totalPages > 1 && (
-                <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
-            )}
+            {totalPages > 1 && <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />}
             {isModalOpen && modalType === 'edit' && selectedItem && (
                 <PopUp isOpen={isModalOpen} onClose={handleCloseModal} onConfirm={() => {}} description="Edit Car">
                     <EditCarForm item={selectedItem} onSave={handleSaveEdit} onCancel={handleCancelEdit} />
