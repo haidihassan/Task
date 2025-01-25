@@ -8,13 +8,21 @@ interface CustomDropdownProps {
     selectedValue: string;
     placeholder: string;
     onChange: (value: string) => void;
+    error?: string; // Optional error prop
 }
 
-const CustomDropdown: React.FC<CustomDropdownProps> = ({ label, options, selectedValue, placeholder, onChange }) => {
+const CustomDropdown: React.FC<CustomDropdownProps> = ({
+    label,
+    options,
+    selectedValue,
+    placeholder,
+    onChange,
+    error,
+}) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     const toggleDropdown = () => {
-        setIsDropdownOpen(!isDropdownOpen);
+        setIsDropdownOpen((prev) => !prev);
     };
 
     const handleSelect = (value: string) => {
@@ -26,7 +34,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({ label, options, selecte
         <div className="relative">
             {label && <label className="block mb-2">{label}</label>}
             <div
-                className="cursor-pointer p-2 border border-gray-200 rounded flex justify-between items-center"
+                className={`cursor-pointer p-2 border ${error ? 'border-red-500' : 'border-gray-200'} rounded flex justify-between items-center`}
                 onClick={toggleDropdown}
             >
                 <span className={selectedValue ? 'text-black' : 'text-gray-500'}>
@@ -47,6 +55,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({ label, options, selecte
                     ))}
                 </div>
             )}
+            {error && <p className="text-red-500 mt-1 text-left">{error}</p>} {/* Display error message */}
         </div>
     );
 };

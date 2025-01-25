@@ -1,4 +1,5 @@
 'use client';
+
 import CustomDropdown from '@/components/dropdown';
 import { Input } from '@/components/ui/input';
 import React, { useState } from 'react';
@@ -11,10 +12,13 @@ import { CarService } from '../utils/CarService';
 import { appPaths } from '@/constants/appPaths';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { appIcons } from '@/constants/appIcons';
+import { z } from 'zod';
+import { CarFormSchema } from '../validations/CarSchema';
 
 export default function CarsForm() {
     const { toasts, addToast, removeToast } = useToast();
     const router = useRouter();
+
     const [formData, setFormData] = useState({
         brand: '',
         type: '',
@@ -25,19 +29,42 @@ export default function CarsForm() {
         price: '',
     });
 
+    const [errors, setErrors] = useState<FormErrors>({});
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
-    };
+    }
 
-    const handleDropdownChange = (value: string) => {
+    function validateForm(): boolean {
+        try {
+            CarFormSchema.parse(formData);
+            setErrors({});
+            return true;
+        } catch (err) {
+            if (err instanceof z.ZodError) {
+                const fieldErrors = err.errors.reduce((acc: FormErrors, error) => {
+                    const fieldName = error.path[0] as keyof FormErrors;
+                    acc[fieldName] = error.message;
+                    return acc;
+                }, {});
+                setErrors(fieldErrors);
+            }
+            return false;
+        }
+    }
+
+    function handleDropdownChange(value: string) {
         setFormData((prev) => ({ ...prev, type: value }));
-    };
+    }
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        if (!validateForm()) {
+            return;
+        }
 
         setIsSubmitting(true);
 
@@ -64,11 +91,18 @@ export default function CarsForm() {
                         name="brand"
                         value={formData.brand}
                         onChange={handleChange}
-                        required
+                        error={errors.brand}
                     />
                 </div>
+
                 <div style={{ marginBottom: '15px' }}>
-                    <CustomDropdown placeholder="Type" options={carTypes} selectedValue={formData.type} onChange={handleDropdownChange} />
+                    <CustomDropdown
+                        placeholder="Type"
+                        options={carTypes}
+                        selectedValue={formData.type}
+                        onChange={handleDropdownChange}
+                        error={errors.type}
+                    />
                 </div>
                 <div style={{ marginBottom: '15px' }}>
                     <Input
@@ -78,14 +112,30 @@ export default function CarsForm() {
                         placeholder="Model"
                         value={formData.model}
                         onChange={handleChange}
-                        required
+                        error={errors.model}
                     />
                 </div>
                 <div style={{ marginBottom: '15px' }}>
-                    <Input type="number" id="year" name="year" placeholder="Year" value={formData.year} onChange={handleChange} required />
+                    <Input
+                        type="number"
+                        id="year"
+                        name="year"
+                        placeholder="Year"
+                        value={formData.year}
+                        onChange={handleChange}
+                        error={errors.year}
+                    />
                 </div>
                 <div style={{ marginBottom: '15px' }}>
-                    <Input type="url" id="img" name="img" placeholder="Image URL" value={formData.img} onChange={handleChange} required />
+                    <Input
+                        type="url"
+                        id="img"
+                        name="img"
+                        placeholder="Image URL"
+                        value={formData.img}
+                        onChange={handleChange}
+                        error={errors.img}
+                    />
                 </div>
                 <div style={{ marginBottom: '15px' }}>
                     <Input
@@ -95,7 +145,7 @@ export default function CarsForm() {
                         placeholder="Engine"
                         value={formData.engine}
                         onChange={handleChange}
-                        required
+                        error={errors.engine}
                     />
                 </div>
                 <div style={{ marginBottom: '15px' }}>
@@ -106,10 +156,9 @@ export default function CarsForm() {
                         placeholder="Price"
                         value={formData.price}
                         onChange={handleChange}
-                        required
+                        error={errors.price}
                     />
                 </div>
-
                 <Button
                     label={isSubmitting ? 'Submitting...' : 'Submit'}
                     style={{ backgroundColor: '#18538c' }}
