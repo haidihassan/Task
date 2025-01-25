@@ -43,7 +43,7 @@ const Button: React.FC<ButtonProps> = ({
     style,
 }) => {
     const colorClasses = {
-        default: 'bg-text text-white',
+        default: 'bg-text text-bg',
         white: 'bg-transparent text-black',
         custom2: 'bg-primary text-black border border-border-gray-200 hover:bg-[#F5F5F5]',
         custom3: `bg-white text-primary ${outLineColor ? outLineColor : 'border-primary'} border-[1px] hover:bg-transparent font-normal`,
@@ -94,7 +94,7 @@ const Button: React.FC<ButtonProps> = ({
             disabled={disabled || isLoading}
         >
             {isLoading ? (
-                <div className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full" />
+                <div className="animate-spin h-5 w-5 border-2 border-bg border-t-transparent rounded-full" />
             ) : (
                 <>
                     {icon && iconPosition === 'left' && <span className="icon">{icon}</span>}

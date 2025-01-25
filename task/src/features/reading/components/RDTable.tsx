@@ -121,7 +121,7 @@ export default function RDTable() {
                 />
             </div>
 
-            <Table className="min-w-full mt-4 text-white">
+            <Table className="min-w-full mt-4 text-bg">
                 <TableHeader>
                     <TableRow>
                         {Tableheads.map((header) => (

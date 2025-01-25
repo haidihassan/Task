@@ -41,9 +41,9 @@ export function AnimatedModalDemo({
         <div className="py-5 flex items-center justify-center">
             <Modal>
                 <div onClick={handleRedirect}>
-                    <ModalTrigger className="bg-text dark:bg-white dark:text-black text-white flex justify-center group/modal-btn">
+                    <ModalTrigger className="bg-text text-bg flex justify-center group/modal-btn">
                         <span className="group-hover/modal-btn:translate-x-40 text-center transition duration-500">{triggerLabel}</span>
-                        <div className="-translate-x-40 group-hover/modal-btn:translate-x-0 flex items-center justify-center absolute inset-0 transition duration-500 text-white z-20">
+                        <div className="-translate-x-40 group-hover/modal-btn:translate-x-0 flex items-center justify-center absolute inset-0 transition duration-500 text-bg z-20">
                             <Icon icon={triggerIcon} width={26} />
                         </div>
                     </ModalTrigger>
@@ -72,7 +72,7 @@ export function AnimatedModalDemo({
                                             rotate: 0,
                                             zIndex: 100,
                                         }}
-                                        className="rounded-xl -mr-4 mt-4 p-1 bg-white dark:bg-neutral-800 dark:border-neutral-700 border border-neutral-100 flex-shrink-0 overflow-hidden"
+                                        className="rounded-xl -mr-4 mt-4 p-1 bg-bg dark:bg-neutral-800 dark:border-neutral-700 border border-neutral-100 flex-shrink-0 overflow-hidden"
                                     >
                                         <Image
                                             src={image}

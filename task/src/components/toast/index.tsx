@@ -21,7 +21,7 @@ const ToastBar = ({ toasts, removeToast }: ToastBarProps) => {
             {toasts.map((toast) => (
                 <div
                     key={toast.id}
-                    className={`p-2 mt-1 rounded-md text-white ${toast.type === 'success' ? 'bg-text' : 'bg-red-500'}`}
+                    className={`p-2 mt-1 rounded-md text-bg ${toast.type === 'success' ? 'bg-text' : 'bg-red-500'}`}
                     onClick={() => removeToast(toast.id)}
                 >
                     {toast.message}
