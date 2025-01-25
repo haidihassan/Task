@@ -65,18 +65,18 @@ export default function RDTable() {
         setIsDeleting(false);
     };
 
-    const handleCloseModal = () => {
+    function handleCloseModal() {
         setIsModalOpen(false);
         setItemToDelete(null);
         setSelectedItem(null);
         setModalType(null);
-    };
+    }
 
-    const handleEditClick = (item: any) => {
+    function handleEditClick(item: any) {
         setSelectedItem(item);
         setModalType('edit');
         setIsModalOpen(true);
-    };
+    }
 
     const handleSaveEdit = async (updatedData: any) => {
         try {
@@ -90,10 +90,10 @@ export default function RDTable() {
         }
     };
 
-    const handleCancelEdit = () => {
+    function handleCancelEdit() {
         setIsModalOpen(false);
         setSelectedItem(null);
-    };
+    }
 
     if (loading) return <div className="text-text">Loading...</div>;
     if (error) return <div className="text-text">{error}</div>;
@@ -170,9 +170,7 @@ export default function RDTable() {
             </Table>
 
             {totalPages > 1 && (
-                <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage}>
-                    {/* <div className="text-center mt-2 text-gray-600">More items on the next page</div> */}
-                </Pagination>
+                <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
             )}
             {isModalOpen && modalType === 'edit' && selectedItem && (
                 <PopUp isOpen={isModalOpen} onClose={handleCloseModal} onConfirm={() => {}} description="Edit Car">
